@@ -19,7 +19,7 @@ const _ = grpc.SupportPackageIsVersion7
 // For semantics around ctx use and closing/ending streaming RPCs, please refer to https://pkg.go.dev/google.golang.org/grpc/?tab=doc#ClientConn.NewStream.
 type PolynomialServiceClient interface {
 	// Send a Polynomial Features
-	PolynomialFeaturesEvent(ctx context.Context, in *PolynomialFeaturesFitTransformRequest, opts ...grpc.CallOption) (*PolynomialFeaturesFitTransformReply, error)
+	PolynomialFeaturesEvent(ctx context.Context, in *PolynomialFeaturesRequest, opts ...grpc.CallOption) (*PolynomialFeaturesReply, error)
 	// Send a Polynomial Features with Transform
 	PolynomialFeaturesFitTransformEvent(ctx context.Context, in *PolynomialFeaturesFitTransformRequest, opts ...grpc.CallOption) (*PolynomialFeaturesFitTransformReply, error)
 }
@@ -32,8 +32,8 @@ func NewPolynomialServiceClient(cc grpc.ClientConnInterface) PolynomialServiceCl
 	return &polynomialServiceClient{cc}
 }
 
-func (c *polynomialServiceClient) PolynomialFeaturesEvent(ctx context.Context, in *PolynomialFeaturesFitTransformRequest, opts ...grpc.CallOption) (*PolynomialFeaturesFitTransformReply, error) {
-	out := new(PolynomialFeaturesFitTransformReply)
+func (c *polynomialServiceClient) PolynomialFeaturesEvent(ctx context.Context, in *PolynomialFeaturesRequest, opts ...grpc.CallOption) (*PolynomialFeaturesReply, error) {
+	out := new(PolynomialFeaturesReply)
 	err := c.cc.Invoke(ctx, "/AIProto.PolynomialService/PolynomialFeaturesEvent", in, out, opts...)
 	if err != nil {
 		return nil, err
@@ -55,7 +55,7 @@ func (c *polynomialServiceClient) PolynomialFeaturesFitTransformEvent(ctx contex
 // for forward compatibility
 type PolynomialServiceServer interface {
 	// Send a Polynomial Features
-	PolynomialFeaturesEvent(context.Context, *PolynomialFeaturesFitTransformRequest) (*PolynomialFeaturesFitTransformReply, error)
+	PolynomialFeaturesEvent(context.Context, *PolynomialFeaturesRequest) (*PolynomialFeaturesReply, error)
 	// Send a Polynomial Features with Transform
 	PolynomialFeaturesFitTransformEvent(context.Context, *PolynomialFeaturesFitTransformRequest) (*PolynomialFeaturesFitTransformReply, error)
 	mustEmbedUnimplementedPolynomialServiceServer()
@@ -65,7 +65,7 @@ type PolynomialServiceServer interface {
 type UnimplementedPolynomialServiceServer struct {
 }
 
-func (UnimplementedPolynomialServiceServer) PolynomialFeaturesEvent(context.Context, *PolynomialFeaturesFitTransformRequest) (*PolynomialFeaturesFitTransformReply, error) {
+func (UnimplementedPolynomialServiceServer) PolynomialFeaturesEvent(context.Context, *PolynomialFeaturesRequest) (*PolynomialFeaturesReply, error) {
 	return nil, status.Errorf(codes.Unimplemented, "method PolynomialFeaturesEvent not implemented")
 }
 func (UnimplementedPolynomialServiceServer) PolynomialFeaturesFitTransformEvent(context.Context, *PolynomialFeaturesFitTransformRequest) (*PolynomialFeaturesFitTransformReply, error) {
@@ -85,7 +85,7 @@ func RegisterPolynomialServiceServer(s grpc.ServiceRegistrar, srv PolynomialServ
 }
 
 func _PolynomialService_PolynomialFeaturesEvent_Handler(srv interface{}, ctx context.Context, dec func(interface{}) error, interceptor grpc.UnaryServerInterceptor) (interface{}, error) {
-	in := new(PolynomialFeaturesFitTransformRequest)
+	in := new(PolynomialFeaturesRequest)
 	if err := dec(in); err != nil {
 		return nil, err
 	}
@@ -97,7 +97,7 @@ func _PolynomialService_PolynomialFeaturesEvent_Handler(srv interface{}, ctx con
 		FullMethod: "/AIProto.PolynomialService/PolynomialFeaturesEvent",
 	}
 	handler := func(ctx context.Context, req interface{}) (interface{}, error) {
-		return srv.(PolynomialServiceServer).PolynomialFeaturesEvent(ctx, req.(*PolynomialFeaturesFitTransformRequest))
+		return srv.(PolynomialServiceServer).PolynomialFeaturesEvent(ctx, req.(*PolynomialFeaturesRequest))
 	}
 	return interceptor(ctx, in, info, handler)
 }
