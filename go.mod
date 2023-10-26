@@ -1,4 +1,4 @@
-module github.com/RYANCOAL9999/AI_Go_Proto_File
+module AI_Go_Proto_File
 
 go 1.21.3
 
